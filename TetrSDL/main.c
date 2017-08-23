@@ -11,15 +11,15 @@
 
 int main(int argc, const char * argv[])
 {
-    // Initialise subsystems
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
-    {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL Init Error: %s", SDL_GetError());
-    }
-    
-    // insert code here...
-    printf("Initialised SDL!\n");
-    
-    SDL_Quit();
-    return 0;
+  // Initialise subsystems
+  if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
+  {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL Init Error: %s", SDL_GetError());
+  }
+  
+  // insert code here...
+  printf("Initialised SDL!\n");
+  
+  SDL_Quit();
+  return 0;
 }

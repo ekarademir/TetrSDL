@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		5BD633BB1F4DEA0B008A0CDB /* TetrSDL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetrSDL; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BD633BE1F4DEA0B008A0CDB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		5BD633BE1F4DEA0B008A0CDB /* main.c */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; tabWidth = 2; };
 		5BD633C61F4DEA99008A0CDB /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		5BD633C81F4DEAAB008A0CDB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
