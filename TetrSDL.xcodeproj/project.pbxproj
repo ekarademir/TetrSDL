@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5BD1E2D01F4F691D00BE1E4E /* tetr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tetr.h; sourceTree = "<group>"; };
 		5BD633BB1F4DEA0B008A0CDB /* TetrSDL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TetrSDL; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD633BE1F4DEA0B008A0CDB /* main.c */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; tabWidth = 2; };
 		5BD633C61F4DEA99008A0CDB /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				5BD633BE1F4DEA0B008A0CDB /* main.c */,
+				5BD1E2D01F4F691D00BE1E4E /* tetr.h */,
 			);
 			path = TetrSDL;
 			sourceTree = "<group>";
@@ -275,6 +277,7 @@
 				5BD633C41F4DEA0B008A0CDB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
