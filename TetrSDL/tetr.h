@@ -9,6 +9,9 @@
 #ifndef tetr_h
 #define tetr_h
 
+#include <stdio.h>
+#include <SDL2/SDL.h>
+
 #define TETR_SCREEN_WIDTH 300
 #define TETR_SCREEN_HEIGHT 600
 

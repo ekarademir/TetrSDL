@@ -6,8 +6,6 @@
 //  Copyright © 2017 Ertugrul Karademir. See LICENCE for licence info.
 //
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
 #include "tetr.h"
 
 int main(int argc, const char * argv[])
