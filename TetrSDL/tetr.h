@@ -15,19 +15,10 @@
 #define TETR_SCREEN_WIDTH 300
 #define TETR_SCREEN_HEIGHT 600
 
-#define LOG_CRT 50
-#define LOG_ERR 40
-#define LOG_WRN 30
-#define LOG_INF 20
-#define LOG_DBG 10
-
+void createWindow();
+void createRenderer();
 
 SDL_Window *tetrWin;
 SDL_Renderer *tetrRend;
-
-void cleanUp();
-void logger();
-void createWindow();
-void createRenderer();
 
 #endif /* tetr_h */
