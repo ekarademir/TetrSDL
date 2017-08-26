@@ -7,8 +7,6 @@
 //
 
 #include "tetr.h"
-#include "utils.h"
-#include "scene.h"
 
 int main(int argc, const char *argv[])
 {
@@ -21,13 +19,51 @@ int main(int argc, const char *argv[])
     createWindow();
     createRenderer();
     
-    SDL_Color clr = {.r=255, .g=0, .b=0, .a=255};
-    
-    fillRect(0, 0, 100, 100, &clr);
-    
-    SDL_RenderPresent(tetrRend);
-    
-    SDL_Delay(3000);
+    int quit = 0;
+    while (quit == 0)
+    {
+        int cmd = GAME_NOOP;
+        clearScene();
+        
+        SDL_Event e;
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_KEYDOWN)
+            {
+                // Getting the scancode
+                int sc = e.key.keysym.scancode;
+                
+                if (sc == SDL_SCANCODE_Q)
+                {
+                    logger(LOG_DBG, "Key Press Q - Quit");
+                    cmd = GAME_QUIT;
+                    quit = 1;
+                }
+                else if (sc == SDL_SCANCODE_D || sc == SDL_SCANCODE_RIGHT)
+                {
+                    logger(LOG_DBG, "Key Press D or RIGHT - Move right");
+                    cmd = GAME_MOVERIGHT;
+                }
+                else if (sc == SDL_SCANCODE_A || sc == SDL_SCANCODE_LEFT)
+                {
+                    logger(LOG_DBG, "Key Press A or LEFT - Move left");
+                    cmd = GAME_MOVELEFT;
+                }
+                else if (sc == SDL_SCANCODE_W || sc == SDL_SCANCODE_UP)
+                {
+                    logger(LOG_DBG, "Key Press W or UP - Rotate");
+                    cmd = GAME_ROTATE;
+                }
+                else if (sc == SDL_SCANCODE_S || sc == SDL_SCANCODE_DOWN)
+                {
+                    logger(LOG_DBG, "Key Press S or DOWN - Move down");
+                    cmd = GAME_MOVEDOWN;
+                }
+            }
+        }
+        
+        loop(cmd, SDL_GetTicks());
+    }
     
     cleanUp();
     exit(EXIT_SUCCESS);
@@ -71,6 +107,8 @@ void createRenderer()
     }
     else
     {
+        // Set blend mode to alpha blending.
+        SDL_SetRenderDrawBlendMode(tetrRend, SDL_BLENDMODE_BLEND);
         logger(LOG_DBG, "Created renderer instance.");
     }
 }

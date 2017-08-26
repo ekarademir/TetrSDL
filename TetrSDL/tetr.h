@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include "utils.h"
+#include "scene.h"
+#include "game.h"
 
 #define TETR_SCREEN_WIDTH 300
 #define TETR_SCREEN_HEIGHT 600
