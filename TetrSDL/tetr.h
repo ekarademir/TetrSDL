@@ -9,19 +9,17 @@
 #ifndef tetr_h
 #define tetr_h
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
+#include "imports.h"
 #include "utils.h"
 #include "scene.h"
 #include "game.h"
 
-#define TETR_SCREEN_WIDTH 300
-#define TETR_SCREEN_HEIGHT 600
-
-void createWindow();
-void createRenderer();
+int createWindow();
+int createRenderer();
+int loadFont();
 
 SDL_Window *tetrWin;
 SDL_Renderer *tetrRend;
+TTF_Font *tetrFont;
 
 #endif /* tetr_h */

@@ -9,13 +9,13 @@
 #ifndef scene_h
 #define scene_h
 
-#include <stdio.h>
-#include <stdint.h>
-#include <SDL2/SDL.h>
+#include "imports.h"
 #include "utils.h"
 
 void clearScene();
-void fillRect (int x, int y, int w, int h, SDL_Color *color);
+void fillRect (int x, int y, int w, int h, SDL_Color color);
+void fillText (char *msg, int x, int y, int w, int h, SDL_Color color);
+
 
 extern SDL_Renderer *tetrRend;
 

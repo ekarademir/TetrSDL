@@ -25,6 +25,13 @@ void cleanUp()
         logger(LOG_DBG, "Destroyed renderer instance.");
     }
     
+    if (tetrFont != NULL)
+    {
+        TTF_CloseFont(tetrFont);
+        logger(LOG_DBG, "Destroyed font instance.");
+    }
+    
+    TTF_Quit();
     SDL_Quit();
 }
 

@@ -9,8 +9,7 @@
 #ifndef utils_h
 #define utils_h
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
+#include "imports.h"
 
 #define LOG_CRT 50
 #define LOG_ERR 40
@@ -18,11 +17,15 @@
 #define LOG_INF 20
 #define LOG_DBG 10
 
+#define TRUE  1
+#define FALSE 0
+
 
 void logger(int lvl, char *msg);
 void cleanUp();
 
 extern SDL_Window *tetrWin;
 extern SDL_Renderer *tetrRend;
+extern TTF_Font *tetrFont;
 
 #endif /* utils_h */

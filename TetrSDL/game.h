@@ -9,20 +9,24 @@
 #ifndef game_h
 #define game_h
 
-#include <stdio.h>
-#include <stdint.h>
-#include <SDL2/SDL.h>
+#include "imports.h"
 #include "utils.h"
 #include "scene.h"
 
+#define TETR_SCREEN_WIDTH 300
+#define TETR_SCREEN_HEIGHT 600
 
-#define GAME_QUIT 0
-#define GAME_MOVELEFT 1
-#define GAME_MOVERIGHT 2
-#define GAME_MOVEDOWN 3
-#define GAME_ROTATE 4
-#define GAME_NEWGAME 5
-#define GAME_NOOP 6
+#define GAME_NOOP 0
+#define GAME_QUIT 1
+#define GAME_MOVELEFT 2
+#define GAME_MOVERIGHT 3
+#define GAME_MOVEDOWN 4
+#define GAME_ROTATE 5
+#define GAME_NEWGAME 6
+#define GAME_PAUSE 8
+
+#define GAME_STATE_PLAY 1
+#define GAME_STATE_PAUSE 2
 
 int loop(int cmd, Uint32 t);
 

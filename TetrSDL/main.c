@@ -16,16 +16,25 @@ int main(int argc, const char *argv[])
         logger(LOG_ERR, "SDL Init Error: %s");
     }
     
+    // Initialise TTF
+    if (TTF_Init() == -1)
+    {
+        logger(LOG_ERR, "TTF_Init Error %s");
+    }
+    
     createWindow();
     createRenderer();
+    loadFont();
     
-    int quit = 0;
-    while (quit == 0)
+    int feedback = GAME_NOOP;
+    int cmd = GAME_NOOP;
+    
+    SDL_Event e;
+    
+    while (feedback != GAME_QUIT)
     {
-        int cmd = GAME_NOOP;
         clearScene();
         
-        SDL_Event e;
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_KEYDOWN)
@@ -37,7 +46,6 @@ int main(int argc, const char *argv[])
                 {
                     logger(LOG_DBG, "Key Press Q - Quit");
                     cmd = GAME_QUIT;
-                    quit = 1;
                 }
                 else if (sc == SDL_SCANCODE_D || sc == SDL_SCANCODE_RIGHT)
                 {
@@ -62,7 +70,8 @@ int main(int argc, const char *argv[])
             }
         }
         
-        loop(cmd, SDL_GetTicks());
+        feedback = loop(cmd, SDL_GetTicks());
+        SDL_RenderPresent(tetrRend);
     }
     
     cleanUp();
@@ -73,7 +82,7 @@ int main(int argc, const char *argv[])
 /**
  * Wraps SDL_CreateWindow
  */
-void createWindow()
+int createWindow()
 {
     tetrWin = SDL_CreateWindow("TETR",
                                    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -84,10 +93,12 @@ void createWindow()
     {
         logger(LOG_ERR, "Error creating window: %s");
         cleanUp();
+        exit(EXIT_FAILURE);
     }
     else
     {
         logger(LOG_DBG, "Created window instance.");
+        return 0;
     }
 
 }
@@ -96,7 +107,7 @@ void createWindow()
 /**
  * Wraps SDL_CreateRenderer
  */
-void createRenderer()
+int createRenderer()
 {
     tetrRend = SDL_CreateRenderer(tetrWin, -1, SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_ACCELERATED);
   
@@ -104,11 +115,32 @@ void createRenderer()
     {
         logger(LOG_ERR, "Error creating renderer: %s");
         cleanUp();
+        exit(EXIT_FAILURE);
     }
     else
     {
         // Set blend mode to alpha blending.
         SDL_SetRenderDrawBlendMode(tetrRend, SDL_BLENDMODE_BLEND);
         logger(LOG_DBG, "Created renderer instance.");
+        return 0;
+    }
+}
+
+
+int loadFont()
+{
+    // http://www.1001fonts.com/ethnocentric-font.html
+    // Made by Raymond Larabie
+    // http://typodermicfonts.com/
+    
+    tetrFont = TTF_OpenFont("/assets/ethocentric.ttf", 30);
+    if (!tetrFont)
+    {
+        logger(LOG_ERR, "Unable to load the font %s");
+        cleanUp();
+        exit(EXIT_FAILURE);
+    } else {
+        logger(LOG_DBG, "Loaded game font.");
+        return 0;
     }
 }
