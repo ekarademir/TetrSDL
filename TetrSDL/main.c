@@ -26,6 +26,8 @@ int main(int argc, const char *argv[])
     createRenderer();
     loadFont();
     
+    setup();
+    
     int feedback = GAME_NOOP;
     int cmd = GAME_NOOP;
     
@@ -72,6 +74,7 @@ int main(int argc, const char *argv[])
         
         feedback = loop(cmd, SDL_GetTicks());
         SDL_RenderPresent(tetrRend);
+        cmd = GAME_NOOP;
     }
     
     cleanUp();

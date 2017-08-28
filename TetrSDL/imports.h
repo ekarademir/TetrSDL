@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <time.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2_ttf/SDL_ttf.h>
