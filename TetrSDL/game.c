@@ -16,17 +16,23 @@ int level = 999;
 int state = GAME_STATE_PAUSE;
 int feedback = GAME_NOOP;
 
-SDL_Color COLOR_WHITE = {255, 255, 255, 0};
-SDL_Color COLOR_BLACK = {255, 255, 255, 0};
-SDL_Color COLOR_BLUE1 = {0, 114, 188, 0};
-SDL_Color COLOR_ORANGE1 = {255, 164, 14, 0};
-SDL_Color COLOR_YELLOW1 = {255, 215, 3, 0};
-SDL_Color COLOR_GREEN1 = {86, 191, 38, 0};
-SDL_Color COLOR_LILAC1 = {117, 173, 241, 0};
-SDL_Color COLOR_RED1 = {214, 85, 80, 0};
+SDL_Color COLOR_WHITE = {255, 255, 255, 255};
+SDL_Color COLOR_BLACK = {0, 0, 0, 255};
+SDL_Color COLOR_BLUE1 = {0, 114, 188, 255};
+SDL_Color COLOR_ORANGE1 = {255, 164, 14, 255};
+SDL_Color COLOR_YELLOW1 = {255, 215, 3, 255};
+SDL_Color COLOR_GREEN1 = {86, 191, 38, 255};
+SDL_Color COLOR_LILAC1 = {117, 173, 241, 255};
+SDL_Color COLOR_RED1 = {214, 85, 80, 255};
+
+const int TETR_BEZEL_WIDTH = TETR_BLOCK_SIZE*20;
+const int TETR_BEZEL_HEIGHT = TETR_BLOCK_SIZE*30;
+const int TETR_BEZEL_X = 95;
+const int TETR_BEZEL_Y = 23;
 
 char hudText[30];
 void updateHUD();
+void drawBezel();
 
 /**
  * Game loop
@@ -38,7 +44,7 @@ int loop(int cmd, Uint32 t)
     if ((t - last) >= speed){last = t;}
     
     updateHUD();
-    
+    drawBezel();
     
     if (cmd == GAME_QUIT){feedback = GAME_QUIT;}
     
@@ -49,6 +55,10 @@ int loop(int cmd, Uint32 t)
 void updateHUD()
 {
     sprintf(hudText, "%3d                 LEVEL:%3d", score, level);
-    
-    fillText(hudText, 5, 0, TETR_SCREEN_WIDTH-10, 20, COLOR_BLUE1);
+    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, 25, COLOR_WHITE, COLOR_BLACK);
+}
+
+void drawBezel()
+{
+    frameRect(TETR_BEZEL_X, TETR_BEZEL_Y, TETR_BEZEL_WIDTH, TETR_BEZEL_HEIGHT, COLOR_WHITE);
 }

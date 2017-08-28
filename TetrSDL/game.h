@@ -13,8 +13,10 @@
 #include "utils.h"
 #include "scene.h"
 
-#define TETR_SCREEN_WIDTH 300
-#define TETR_SCREEN_HEIGHT 600
+#define TETR_SCREEN_WIDTH 500
+#define TETR_SCREEN_HEIGHT 625
+
+#define TETR_BLOCK_SIZE 20
 
 #define GAME_NOOP 0
 #define GAME_QUIT 1

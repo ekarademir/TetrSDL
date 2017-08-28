@@ -34,3 +34,23 @@ void fillText (char *msg, int x, int y, int w, int h, SDL_Color color)
     SDL_DestroyTexture(text);
     text = NULL;
 }
+
+
+void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color color, SDL_Color bgcolor)
+{
+    SDL_Surface *text_surface = TTF_RenderUTF8_Shaded(tetrFont, msg, color, bgcolor);
+    SDL_Texture *text = SDL_CreateTextureFromSurface(tetrRend, text_surface);
+    SDL_Rect rect = {x, y, w, h};
+    SDL_FreeSurface(text_surface);
+    SDL_RenderCopy(tetrRend, text, NULL, &rect);
+    SDL_DestroyTexture(text);
+    text = NULL;
+}
+
+
+void frameRect (int x, int y, int w, int h, SDL_Color color)
+{
+    SDL_Rect rect = {x, y, w, h};
+    SDL_SetRenderDrawColor(tetrRend, color.r, color.g, color.b, color.a);
+    SDL_RenderDrawRect(tetrRend, &rect);
+}
