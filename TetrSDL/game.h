@@ -38,6 +38,12 @@
 #define GAME_STATE_PLAY 1
 #define GAME_STATE_PAUSE 2
 
+typedef struct Tetrominos {
+    char shape;
+    int rows;
+    int cols;
+} Tetromino;
+
 int loop(int cmd, Uint32 t);
 
 extern SDL_Renderer *tetrRend;

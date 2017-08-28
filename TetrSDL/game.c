@@ -25,6 +25,14 @@ SDL_Color COLOR_GREEN1 = {86, 191, 38, 255};
 SDL_Color COLOR_LILAC1 = {117, 173, 241, 255};
 SDL_Color COLOR_RED1 = {214, 85, 80, 255};
 
+const int TETROMINO_O[2][2] = {{1, 1}, {1, 1}};
+const int TETROMINO_T[2][3] = {{1, 1, 1}, {0, 1, 0}};
+const int TETROMINO_I[4][1] = {{1}, {1}, {1}, {1}};
+const int TETROMINO_L[3][2] = {{1, 0}, {1, 0}, {1, 1}};
+const int TETROMINO_J[3][2] = {{0, 1}, {0, 1}, {1, 1}};
+const int TETROMINO_S[2][3] = {{0, 1, 1}, {1, 1, 0}};
+const int TETROMINO_Z[2][3] = {{1, 1, 0}, {0, 1, 1}};
+
 char hudText[30];
 void updateHUD();
 void drawBezel();
