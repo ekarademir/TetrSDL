@@ -25,11 +25,6 @@ SDL_Color COLOR_GREEN1 = {86, 191, 38, 255};
 SDL_Color COLOR_LILAC1 = {117, 173, 241, 255};
 SDL_Color COLOR_RED1 = {214, 85, 80, 255};
 
-const int TETR_BEZEL_WIDTH = TETR_BLOCK_SIZE*20;
-const int TETR_BEZEL_HEIGHT = TETR_BLOCK_SIZE*30;
-const int TETR_BEZEL_X = 95;
-const int TETR_BEZEL_Y = 23;
-
 char hudText[30];
 void updateHUD();
 void drawBezel();
@@ -55,7 +50,7 @@ int loop(int cmd, Uint32 t)
 void updateHUD()
 {
     sprintf(hudText, "%3d                 LEVEL:%3d", score, level);
-    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, 25, COLOR_WHITE, COLOR_BLACK);
+    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, COLOR_WHITE, COLOR_BLACK);
 }
 
 void drawBezel()
