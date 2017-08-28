@@ -21,8 +21,8 @@ int score = 999;
 int level = 999;
 int state = GAME_STATE_PAUSE;
 int feedback = GAME_NOOP;
-Tetromino *activeShape;
-Tetromino *nextShape;
+Tetromino activeShape;
+Tetromino nextShape;
 
 SDL_Color COLOR_WHITE = {255, 255, 255, 255};
 SDL_Color COLOR_VOID = {0, 0, 0, 0};
@@ -82,7 +82,7 @@ int loop(int cmd, Uint32 t)
     
     updateHUD();
     drawBezel();
-    drawTetromino(nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+    drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
     drawScene();
     
     if (cmd == GAME_ROTATE)
@@ -179,35 +179,35 @@ void nextTetromino()
 {
     int r = rand() % 7 + 1;
     
-    Tetromino *t;
+    Tetromino t;
     
     switch (r) {
         case CHR_I:
-            t = &SHAPE_I;
+            t = SHAPE_I;
             break;
         
         case CHR_O:
-            t = &SHAPE_O;
+            t = SHAPE_O;
             break;
         
         case CHR_L:
-            t = &SHAPE_L;
+            t = SHAPE_L;
             break;
         
         case CHR_J:
-            t = &SHAPE_J;
+            t = SHAPE_J;
             break;
         
         case CHR_S:
-            t = &SHAPE_S;
+            t = SHAPE_S;
             break;
         
         case CHR_Z:
-            t = &SHAPE_Z;
+            t = SHAPE_Z;
             break;
             
         default: // CHR_T
-            t = &SHAPE_T;
+            t = SHAPE_T;
             break;
     }
 
