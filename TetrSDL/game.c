@@ -63,12 +63,19 @@ int loop(int cmd, Uint32 t)
 }
 
 
+void drawTetromino(Tetromino *t)
+{
+    
+}
+
+
 Tetromino newTetromino(char shape)
 {
     Tetromino t;
     t.row = 2;
     t.col = 3;
     t.shape = 'T';
+    t.color = &COLOR_RED1;
     t.matrix = TETROMINO_T;
     
     return t;
@@ -78,10 +85,10 @@ Tetromino newTetromino(char shape)
 void updateHUD()
 {
     sprintf(hudText, "%3d                 LEVEL:%3d", score, level);
-    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, COLOR_WHITE, COLOR_BLACK);
+    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
 }
 
 void drawBezel()
 {
-    frameRect(TETR_BEZEL_X, TETR_BEZEL_Y, TETR_BEZEL_WIDTH, TETR_BEZEL_HEIGHT, COLOR_WHITE);
+    frameRect(TETR_BEZEL_X, TETR_BEZEL_Y, TETR_BEZEL_WIDTH, TETR_BEZEL_HEIGHT, &COLOR_WHITE);
 }
