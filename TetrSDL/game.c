@@ -33,6 +33,14 @@ int TETROMINO_J[6] = {0, 1, 0, 1, 1, 1};
 int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 
+//int TETROMINO_O[2][2] = {{1, 1}, {1, 1}};
+//int TETROMINO_T[2][3] = {{1, 1, 1}, {0, 1, 0}};
+//int TETROMINO_I[4][1] = {{1}, {1}, {1}, {1}};
+//int TETROMINO_L[3][2] = {{1, 0}, {1, 0}, {1, 1}};
+//int TETROMINO_J[3][2] = {{0, 1}, {0, 1}, {1, 1}};
+//int TETROMINO_S[2][3] = {{0, 1, 1}, {1, 1, 0}};
+//int TETROMINO_Z[2][3] = {{1, 1, 0}, {0, 1, 1}};
+
 char hudText[30];
 void updateHUD();
 void drawBezel();
