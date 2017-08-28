@@ -11,9 +11,8 @@
 char hudText[30];
 void updateHUD();
 void drawBezel();
-void drawTetromino(Tetromino *t);
+void drawTetromino(Tetromino *t, int x, int y);
 void nextTetromino();
-
 
 Uint32 last = 0;  // Last save of the time passed.
 int speed = 1000; // Speed of block movement in ms.
@@ -42,22 +41,21 @@ int TETROMINO_J[6] = {0, 1, 0, 1, 1, 1};
 int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 
+Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T};
+Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O};
+Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I};
+Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L};
+Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J};
+Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S};
+Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z};
 
-Tetromino SHAPE_T = {'T', 2, 3, &COLOR_ORANGE1, TETROMINO_T, 0, 0};
-Tetromino SHAPE_O = {'O', 2, 2, &COLOR_BLUE1, TETROMINO_O, 0, 0};
-Tetromino SHAPE_I = {'I', 4, 1, &COLOR_RED1, TETROMINO_I, 0, 0};
-Tetromino SHAPE_L = {'L', 3, 2, &COLOR_GREEN1, TETROMINO_L, 0, 0};
-Tetromino SHAPE_J = {'J', 3, 2, &COLOR_YELLOW1, TETROMINO_J, 0, 0};
-Tetromino SHAPE_S = {'S', 2, 3, &COLOR_LILAC1, TETROMINO_S, 0, 0};
-Tetromino SHAPE_Z = {'Z', 2, 3, &COLOR_LILAC2, TETROMINO_Z, 0, 0};
-
-
+int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
 
 int setup()
 {
     srand((unsigned) time(NULL));
     
-     nextTetromino();
+    nextTetromino();
     
     return 0;
 }
@@ -74,7 +72,7 @@ int loop(int cmd, Uint32 t)
     
     updateHUD();
     drawBezel();
-    drawTetromino(nextShape);
+    drawTetromino(nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
     
     if (cmd == GAME_ROTATE)
     {
@@ -86,8 +84,13 @@ int loop(int cmd, Uint32 t)
     return feedback;
 }
 
+void drawScene()
+{
+    
+}
 
-void drawTetromino(Tetromino *t)
+
+void drawTetromino(Tetromino *t, int x, int y)
 {
     int len = t->col * t->row;
     
@@ -101,8 +104,8 @@ void drawTetromino(Tetromino *t)
         if (t->matrix[i] == 1)
         {
             fillRect(
-                     t->xPos + 1 + TETR_BLOCK_SIZE * currCol,
-                     t->yPos + 1 + TETR_BLOCK_SIZE * currRow,
+                     x + 1 + TETR_BLOCK_SIZE * currCol,
+                     y + 1 + TETR_BLOCK_SIZE * currRow,
                      TETR_BLOCK_SIZE-2,
                      TETR_BLOCK_SIZE -2,
                      t->color);
@@ -118,38 +121,34 @@ void nextTetromino()
     Tetromino *t;
     
     switch (r) {
-        case 0:
+        case CHR_I:
             t = &SHAPE_I;
             break;
         
-        case 1:
+        case CHR_O:
             t = &SHAPE_O;
             break;
         
-        case 2:
+        case CHR_L:
             t = &SHAPE_L;
             break;
         
-        case 3:
+        case CHR_J:
             t = &SHAPE_J;
             break;
         
-        case 4:
+        case CHR_S:
             t = &SHAPE_S;
             break;
         
-        case 5:
+        case CHR_Z:
             t = &SHAPE_Z;
             break;
             
-        default:
+        default: // CHR_T
             t = &SHAPE_T;
             break;
     }
-    
-    
-    t->xPos = TETR_BEZEL_X - TETR_BLOCK_SIZE * 4;
-    t->yPos = TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4;
 
     nextShape = t;
 }

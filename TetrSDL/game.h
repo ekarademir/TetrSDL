@@ -40,15 +40,20 @@
 #define GAME_STATE_PLAY 1
 #define GAME_STATE_PAUSE 2
 
+#define CHR_T 0
+#define CHR_I 1
+#define CHR_S 2
+#define CHR_Z 3
+#define CHR_J 4
+#define CHR_L 5
+#define CHR_O 6
+
 typedef struct Tetrominos {
-    char shape;
     int row;
     int col;
     SDL_Color *color;
     // This is a string representation of the matrix. Get the total matrix by using rows and cols.
     int *matrix;
-    int xPos;
-    int yPos;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);
