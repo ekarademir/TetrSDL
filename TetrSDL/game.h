@@ -40,7 +40,7 @@
 #define GAME_STATE_PLAY 1
 #define GAME_STATE_PAUSE 2
 
-#define CHR_T 0
+#define CHR_T 7
 #define CHR_I 1
 #define CHR_S 2
 #define CHR_Z 3

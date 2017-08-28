@@ -13,6 +13,7 @@ void updateHUD();
 void drawBezel();
 void drawTetromino(Tetromino *t, int x, int y);
 void nextTetromino();
+void drawScene();
 
 Uint32 last = 0;  // Last save of the time passed.
 int speed = 1000; // Speed of block movement in ms.
@@ -24,6 +25,7 @@ Tetromino *activeShape;
 Tetromino *nextShape;
 
 SDL_Color COLOR_WHITE = {255, 255, 255, 255};
+SDL_Color COLOR_VOID = {0, 0, 0, 0};
 SDL_Color COLOR_BLACK = {0, 0, 0, 255};
 SDL_Color COLOR_BLUE1 = {0, 114, 188, 255};
 SDL_Color COLOR_ORANGE1 = {255, 164, 14, 255};
@@ -55,6 +57,14 @@ int setup()
 {
     srand((unsigned) time(NULL));
     
+    scene[2][0] = CHR_T;
+    scene[2][1] = CHR_O;
+    scene[2][2] = CHR_I;
+    scene[2][3] = CHR_L;
+    scene[2][4] = CHR_S;
+    scene[2][5] = CHR_J;
+    scene[2][6] = CHR_Z;
+    
     nextTetromino();
     
     return 0;
@@ -73,6 +83,7 @@ int loop(int cmd, Uint32 t)
     updateHUD();
     drawBezel();
     drawTetromino(nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+    drawScene();
     
     if (cmd == GAME_ROTATE)
     {
@@ -86,7 +97,57 @@ int loop(int cmd, Uint32 t)
 
 void drawScene()
 {
-    
+    SDL_Color *color;
+    for (int i = 0; i < TETR_NUM_VERTICAL; i++)
+    {
+        for (int j = 0; j < TETR_NUM_HORIZONTAL; j++)
+        {
+            
+            switch (scene[i][j]) {
+                case CHR_T:
+                    color = SHAPE_T.color;
+                    break;
+                
+                case CHR_O:
+                    color = SHAPE_O.color;
+                    break;
+                
+                case CHR_I:
+                    color = SHAPE_I.color;
+                    break;
+                
+                case CHR_L:
+                    color = SHAPE_L.color;
+                    break;
+                
+                case CHR_J:
+                    color = SHAPE_J.color;
+                    break;
+                
+                case CHR_S:
+                    color = SHAPE_S.color;
+                    break;
+                
+                case CHR_Z:
+                    color = SHAPE_Z.color;
+                    break;
+                
+                default:
+                    color = &COLOR_VOID;
+                    break;
+            } //end switch
+            
+            if (scene[i][j] > 0)
+            {
+                fillRect(
+                         TETR_BEZEL_X + 1 + TETR_BLOCK_SIZE * j,
+                         TETR_BEZEL_Y + 1 + TETR_BLOCK_SIZE * i,
+                         TETR_BLOCK_SIZE - 2,
+                         TETR_BLOCK_SIZE - 2,
+                         color);
+            }
+        } // end for j
+    } // end for i
 }
 
 
@@ -106,8 +167,8 @@ void drawTetromino(Tetromino *t, int x, int y)
             fillRect(
                      x + 1 + TETR_BLOCK_SIZE * currCol,
                      y + 1 + TETR_BLOCK_SIZE * currRow,
-                     TETR_BLOCK_SIZE-2,
-                     TETR_BLOCK_SIZE -2,
+                     TETR_BLOCK_SIZE - 2,
+                     TETR_BLOCK_SIZE - 2,
                      t->color);
         }
     }
@@ -116,7 +177,7 @@ void drawTetromino(Tetromino *t, int x, int y)
 
 void nextTetromino()
 {
-    int r = rand() % 7;
+    int r = rand() % 7 + 1;
     
     Tetromino *t;
     
@@ -162,5 +223,5 @@ void updateHUD()
 
 void drawBezel()
 {
-    frameRect(TETR_BEZEL_X, TETR_BEZEL_Y, TETR_BEZEL_WIDTH, TETR_BEZEL_HEIGHT, &COLOR_WHITE);
+    frameRect(TETR_BEZEL_X - 1, TETR_BEZEL_Y - 1, TETR_BEZEL_WIDTH + 2, TETR_BEZEL_HEIGHT + 2, &COLOR_WHITE);
 }
