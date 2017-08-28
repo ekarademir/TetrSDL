@@ -16,17 +16,17 @@ void clearScene()
 }
 
 
-void fillRect (int x, int y, int w, int h, SDL_Color color)
+void fillRect (int x, int y, int w, int h, SDL_Color *color)
 {
     SDL_Rect rect = {x, y, w, h};
-    SDL_SetRenderDrawColor(tetrRend, color.r, color.g, color.b, color.a);
+    SDL_SetRenderDrawColor(tetrRend, color->r, color->g, color->b, color->a);
     SDL_RenderFillRect(tetrRend, &rect);
 }
 
 
-void fillText (char *msg, int x, int y, int w, int h, SDL_Color color)
+void fillText (char *msg, int x, int y, int w, int h, SDL_Color *color)
 {
-    SDL_Surface *text_surface = TTF_RenderText_Blended(tetrFont, msg, color);
+    SDL_Surface *text_surface = TTF_RenderText_Blended(tetrFont, msg, *color);
     SDL_Texture *text = SDL_CreateTextureFromSurface(tetrRend, text_surface);
     SDL_Rect rect = {x, y, w, h};
     SDL_FreeSurface(text_surface);
@@ -36,9 +36,9 @@ void fillText (char *msg, int x, int y, int w, int h, SDL_Color color)
 }
 
 
-void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color color, SDL_Color bgcolor)
+void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color *color, SDL_Color *bgcolor)
 {
-    SDL_Surface *text_surface = TTF_RenderUTF8_Shaded(tetrFont, msg, color, bgcolor);
+    SDL_Surface *text_surface = TTF_RenderUTF8_Shaded(tetrFont, msg, *color, *bgcolor);
     SDL_Texture *text = SDL_CreateTextureFromSurface(tetrRend, text_surface);
     SDL_Rect rect = {x, y, w, h};
     SDL_FreeSurface(text_surface);
@@ -48,9 +48,9 @@ void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color color, SDL
 }
 
 
-void frameRect (int x, int y, int w, int h, SDL_Color color)
+void frameRect (int x, int y, int w, int h, SDL_Color *color)
 {
     SDL_Rect rect = {x, y, w, h};
-    SDL_SetRenderDrawColor(tetrRend, color.r, color.g, color.b, color.a);
+    SDL_SetRenderDrawColor(tetrRend, color->r, color->g, color->b, color->a);
     SDL_RenderDrawRect(tetrRend, &rect);
 }

@@ -13,10 +13,10 @@
 #include "utils.h"
 
 void clearScene();
-void fillRect (int x, int y, int w, int h, SDL_Color color);
-void frameRect (int x, int y, int w, int h, SDL_Color color);
-void fillText (char *msg, int x, int y, int w, int h, SDL_Color color);
-void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color color, SDL_Color bgcolor);
+void fillRect (int x, int y, int w, int h, SDL_Color *color);
+void frameRect (int x, int y, int w, int h, SDL_Color *color);
+void fillText (char *msg, int x, int y, int w, int h, SDL_Color *color);
+void fillTextShaded (char *msg, int x, int y, int w, int h, SDL_Color *color, SDL_Color *bgcolor);
 
 
 extern SDL_Renderer *tetrRend;
