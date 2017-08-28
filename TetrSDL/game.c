@@ -8,7 +8,7 @@
 
 #include "game.h"
 
-char hudText[30];
+char hudText[40];
 void updateHUD();
 void drawBezel();
 void drawTetromino(Tetromino *t, int x, int y);
@@ -217,8 +217,8 @@ void nextTetromino()
 
 void updateHUD()
 {
-    sprintf(hudText, "%3d                 LEVEL:%3d", score, level);
-    fillTextShaded(hudText, 5, 0, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
+    sprintf(hudText, "%3d                    LEVEL: %3d", score, level);
+    fillTextShaded(hudText, 22, -1, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
 }
 
 void drawBezel()
