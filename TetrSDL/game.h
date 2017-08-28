@@ -40,8 +40,10 @@
 
 typedef struct Tetrominos {
     char shape;
-    int rows;
-    int cols;
+    int row;
+    int col;
+    // This is a string representation of the matrix. Get the total matrix by using rows and cols.
+    int *matrix;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);
