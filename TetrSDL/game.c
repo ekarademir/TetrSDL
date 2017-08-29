@@ -32,7 +32,7 @@ SDL_Color COLOR_ORANGE1 = {255, 164, 14, 255};
 SDL_Color COLOR_YELLOW1 = {255, 215, 3, 255};
 SDL_Color COLOR_GREEN1 = {86, 191, 38, 255};
 SDL_Color COLOR_LILAC1 = {117, 173, 241, 255};
-SDL_Color COLOR_LILAC2 = {107, 173, 221, 255};
+SDL_Color COLOR_LILAC2 = {200, 114, 200, 255};
 SDL_Color COLOR_RED1 = {214, 85, 80, 255};
 
 int TETROMINO_O[6] = {1, 1, 1, 1, 0, 0};
@@ -94,6 +94,7 @@ int loop(int cmd, Uint32 t)
     
     return feedback;
 }
+
 
 void drawScene()
 {
