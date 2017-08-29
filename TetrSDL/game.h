@@ -20,10 +20,11 @@
 
 #define TETR_BEZEL_PADDING 35
 #define TETR_BEZEL_X TETR_BLOCK_SIZE*3+TETR_BEZEL_PADDING
-#define TETR_BEZEL_Y TETR_HUD_HEIGHT + 5
+#define TETR_BEZEL_Y TETR_HUD_HEIGHT+5
 #define TETR_BEZEL_WIDTH TETR_BLOCK_SIZE*TETR_NUM_HORIZONTAL
 #define TETR_BEZEL_HEIGHT TETR_BLOCK_SIZE*TETR_NUM_VERTICAL
-#define TETR_BEZEL_CENTER TETR_BLOCK_SIZE*(TETR_NUM_HORIZONTAL/2+2) + TETR_BEZEL_PADDING
+
+#define TETR_SPAWN_COL TETR_NUM_HORIZONTAL/2-1
 
 #define TETR_SCREEN_WIDTH TETR_BEZEL_X+TETR_BEZEL_WIDTH+5
 #define TETR_SCREEN_HEIGHT TETR_BEZEL_Y+TETR_BEZEL_HEIGHT+5
@@ -54,6 +55,7 @@ typedef struct Tetrominos {
     SDL_Color *color;
     // This is a string representation of the matrix. Get the total matrix by using rows and cols.
     int *matrix;
+    int code;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);
