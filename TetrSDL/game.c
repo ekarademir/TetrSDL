@@ -60,13 +60,13 @@ int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 int TETROMINO_VOID[6] = {0, 0, 0, 0, 0, 0};
 
-Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T};
-Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O};
-Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I};
-Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L};
-Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J};
-Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S};
-Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z};
+Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, (unsigned short)SH_T_UP};
+Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, (unsigned short)SH_O_UP};
+Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, (unsigned short)SH_I_UP};
+Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, (unsigned short)SH_L_UP};
+Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, (unsigned short)SH_J_UP};
+Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, (unsigned short)SH_S_UP};
+Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, (unsigned short)SH_Z_UP};
 
 int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
 int arena[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];

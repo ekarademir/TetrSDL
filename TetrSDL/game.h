@@ -86,14 +86,31 @@
 #define SH_Z_DW 50688 //1100 0110 0000 0000
 #define SH_Z_RT 19584 //0100 1100 1000 0000
 
+#define _BIT1  32768
+#define _BIT2  _BIT1  / 2
+#define _BIT3  _BIT2  / 2
+#define _BIT4  _BIT3  / 2
+#define _BIT5  _BIT4  / 2
+#define _BIT6  _BIT5  / 2
+#define _BIT7  _BIT6  / 2
+#define _BIT8  _BIT7  / 2
+#define _BIT9  _BIT8  / 2
+#define _BIT10 _BIT9  / 2
+#define _BIT11 _BIT10 / 2
+#define _BIT12 _BIT11 / 2
+#define _BIT13 _BIT12 / 2
+#define _BIT14 _BIT13 / 2
+#define _BIT15 _BIT14 / 2
+#define _BIT16 _BIT15 / 2
+
 typedef struct Tetrominos {
     int row;
     int col;
     SDL_Color *color;
     // This is a string representation of the matrix. Get the total matrix by using rows and cols.
     int *matrix;
-    // short matrix;
     int code;
+    unsigned short orientation;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);
