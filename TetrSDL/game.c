@@ -54,15 +54,6 @@ unsigned short POS[16] = {
     _BIT11, _BIT12, _BIT13, _BIT14, _BIT15, _BIT16
 };
 
-int TETROMINO_O[6] = {1, 1, 1, 1, 0, 0};
-int TETROMINO_T[6] = {1, 1, 1, 0, 1, 0};
-int TETROMINO_I[6] = {1, 1, 1, 1, 1, 1};
-int TETROMINO_L[6] = {1, 0, 1, 0, 1, 1};
-int TETROMINO_J[6] = {0, 1, 0, 1, 1, 1};
-int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
-int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
-int TETROMINO_VOID[6] = {0, 0, 0, 0, 0, 0};
-
 int ORS[7][4] = {
     {SH_I_UP, SH_I_LF, SH_I_DW, SH_I_RT},
     {SH_S_UP, SH_S_LF, SH_S_DW, SH_S_RT},
