@@ -16,7 +16,7 @@ void drawTetromino(Tetromino *t, int x, int y);
 void nextTetromino();
 void printTetromino(Tetromino *t);
 
-void drawScene(int _scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL]);
+void drawScene();
 void arenaToScene();
 void drawNextShape();
 void blendToScene(Tetromino *t);
@@ -101,7 +101,7 @@ int loop(int cmd, Uint32 t)
     drawBezel();
     drawNextShape();
     blendToScene(&activeShape);
-    drawScene(scene);
+    drawScene();
     
     if (cmd == GAME_ROTATE)
     {
@@ -129,7 +129,7 @@ int loop(int cmd, Uint32 t)
 }
 
 
-void drawScene(int _scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL])
+void drawScene()
 {
     SDL_Color *color;
     for (int i = 0; i < TETR_NUM_VERTICAL; i++)
@@ -137,7 +137,7 @@ void drawScene(int _scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL])
         for (int j = 0; j < TETR_NUM_HORIZONTAL; j++)
         {
             
-            switch (_scene[i][j]) {
+            switch (scene[i][j]) {
                 case CHR_T:
                     color = SHAPE_T.color;
                     break;
@@ -171,7 +171,7 @@ void drawScene(int _scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL])
                     break;
             } //end switch
             
-            if (_scene[i][j] > 0)
+            if (scene[i][j] > 0)
             {
                 fillRect(
                          TETR_BEZEL_X + 1 + TETR_BLOCK_SIZE * j,
