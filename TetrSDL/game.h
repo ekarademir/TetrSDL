@@ -110,7 +110,7 @@ typedef struct Tetrominos {
     // This is a string representation of the matrix. Get the total matrix by using rows and cols.
     int *matrix;
     int code;
-    unsigned short orientation;
+    int orientation;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);

@@ -66,13 +66,13 @@ int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 int TETROMINO_VOID[6] = {0, 0, 0, 0, 0, 0};
 
-Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, (unsigned short)SH_T_UP};
-Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, (unsigned short)SH_O_UP};
-Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, (unsigned short)SH_I_UP};
-Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, (unsigned short)SH_L_UP};
-Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, (unsigned short)SH_J_UP};
-Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, (unsigned short)SH_S_UP};
-Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, (unsigned short)SH_Z_UP};
+Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, SH_T_UP};
+Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, SH_O_UP};
+Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, SH_I_UP};
+Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, SH_L_UP};
+Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, SH_J_UP};
+Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, SH_S_UP};
+Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, SH_Z_UP};
 
 int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
 int arena[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
@@ -224,8 +224,8 @@ void arenaToScene()
 
 void drawNextShape()
 {
-    drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
-//    drawTetromino2(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+//    drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+    drawTetromino2(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
 }
 
 
@@ -261,6 +261,7 @@ void drawTetromino(Tetromino *t, int x, int y)
 
 void drawTetromino2(Tetromino *t, int x, int y)
 {
+    
     int len = 16;
     
     int collen = 4;
@@ -271,7 +272,6 @@ void drawTetromino2(Tetromino *t, int x, int y)
     {
         currRow = i / collen;
         currCol = i % collen;
-        
         if ( (t->orientation & POS[i]) != 0)
         {
             fillRect(
@@ -288,7 +288,7 @@ void drawTetromino2(Tetromino *t, int x, int y)
 void nextTetromino()
 {
 //    int r = rand() % 7 + 1;
-    int r = 4;
+    int r = 7;
     
     destroyTetromino(&nextShape);
     
@@ -434,12 +434,14 @@ void copyTetromino(Tetromino *target, Tetromino *source)
         target->color = &COLOR_VOID;
         target->matrix = TETROMINO_VOID;
         target->code = CHR_T;
+        target->orientation = 0;
     }
     
     target->col = source->col;
     target->row = source->row;
     target->color = source->color;
     target->code = source->code;
+    target->orientation = source->orientation;
     
     for (int i = 0; i < 6; i++)
     {
