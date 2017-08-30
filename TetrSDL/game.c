@@ -88,6 +88,8 @@ int setup()
 {
     srand((unsigned) time(NULL));
     
+    state = GAME_STATE_PLAY;
+    
     activeX = TETR_SPAWN_COL;
     activeY = TETR_SPAWN_ROW;
     
@@ -138,6 +140,7 @@ int loop(int cmd, Uint32 t)
         
         if (cmd == GAME_MOVEDOWN)
         {
+//            state = GAME_STATE_OVER;
             moveActiveShape(0, 1);
         }
     }
@@ -147,7 +150,12 @@ int loop(int cmd, Uint32 t)
         drawBezel();
         drawNextShape();
         drawScene();
-        fillText("GAME OVER", TETR_BEZEL_PADDING+150, 300, 0, 0, &COLOR_LILAC2);
+        fillText("GAME OVER", TETR_BEZEL_PADDING+150, 300, 0, 0, &COLOR_WHITE);
+        if (cmd == GAME_NEWGAME)
+        {
+            logger(LOG_DBG, "Starting new game %s");
+            setup();
+        }
     }
     
     if (cmd == GAME_QUIT){feedback = GAME_QUIT;}

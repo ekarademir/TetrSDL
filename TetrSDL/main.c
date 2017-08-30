@@ -69,6 +69,11 @@ int main(int argc, const char *argv[])
                     logger(LOG_DBG, "Key Press S or DOWN - Move down");
                     cmd = GAME_MOVEDOWN;
                 }
+                else if (sc == SDL_SCANCODE_N)
+                {
+                    logger(LOG_DBG, "Key Press N - New game");
+                    cmd = GAME_NEWGAME;
+                }
             }
         }
         
