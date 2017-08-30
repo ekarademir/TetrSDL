@@ -13,6 +13,7 @@ void updateHUD();
 void drawBezel();
 
 void drawTetromino(Tetromino *t, int x, int y);
+void drawTetromino2(Tetromino *t, int x, int y);
 void copyTetromino(Tetromino *source, Tetromino *target);
 void destroyTetromino(Tetromino *t);
 void nextTetromino();
@@ -50,6 +51,11 @@ SDL_Color COLOR_GREEN1 = {86, 191, 38, 255};
 SDL_Color COLOR_LILAC1 = {117, 173, 241, 255};
 SDL_Color COLOR_LILAC2 = {200, 114, 200, 255};
 SDL_Color COLOR_RED1 = {214, 85, 80, 255};
+
+unsigned short POS[16] = {
+    _BIT1,  _BIT2,  _BIT3,  _BIT4,  _BIT5,  _BIT6, _BIT7, _BIT8, _BIT9, _BIT10,
+    _BIT11, _BIT12, _BIT13, _BIT14, _BIT15, _BIT16
+};
 
 int TETROMINO_O[6] = {1, 1, 1, 1, 0, 0};
 int TETROMINO_T[6] = {1, 1, 1, 0, 1, 0};
@@ -219,6 +225,7 @@ void arenaToScene()
 void drawNextShape()
 {
     drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+//    drawTetromino2(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
 }
 
 
@@ -241,6 +248,31 @@ void drawTetromino(Tetromino *t, int x, int y)
         currCol = i % t->col;
 
         if (t->matrix[i] == 1)
+        {
+            fillRect(
+                     x + 1 + TETR_BLOCK_SIZE * currCol,
+                     y + 1 + TETR_BLOCK_SIZE * currRow,
+                     TETR_BLOCK_SIZE - 2,
+                     TETR_BLOCK_SIZE - 2,
+                     t->color);
+        }
+    }
+}
+
+void drawTetromino2(Tetromino *t, int x, int y)
+{
+    int len = 16;
+    
+    int collen = 4;
+    
+    int currRow, currCol;
+    
+    for (int i = 0; i < len; i++)
+    {
+        currRow = i / collen;
+        currCol = i % collen;
+        
+        if ( (t->orientation & POS[i]) != 0)
         {
             fillRect(
                      x + 1 + TETR_BLOCK_SIZE * currCol,
