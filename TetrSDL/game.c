@@ -27,6 +27,7 @@ void moveActiveShape(int dx, int dy);
 void transposeShape();
 void flipVShape();
 void rotateActiveShape();
+void rotateActiveShape2();
 void newShape();
 
 
@@ -66,13 +67,21 @@ int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 int TETROMINO_VOID[6] = {0, 0, 0, 0, 0, 0};
 
-Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, SH_T_UP};
-Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, SH_O_UP};
-Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, SH_I_UP};
-Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, SH_L_UP};
-Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, SH_J_UP};
-Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, SH_S_UP};
-Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, SH_Z_UP};
+int OR_T[4] = {SH_T_UP, SH_T_LF, SH_T_DW, SH_T_RT};
+int OR_O[4] = {SH_O_UP, SH_O_LF, SH_O_DW, SH_O_RT};
+int OR_I[4] = {SH_I_UP, SH_I_LF, SH_I_DW, SH_I_RT};
+int OR_L[4] = {SH_L_UP, SH_L_LF, SH_L_DW, SH_L_RT};
+int OR_J[4] = {SH_J_UP, SH_J_LF, SH_J_DW, SH_J_RT};
+int OR_S[4] = {SH_S_UP, SH_S_LF, SH_S_DW, SH_S_RT};
+int OR_Z[4] = {SH_Z_UP, SH_Z_LF, SH_Z_DW, SH_Z_RT};
+
+Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, SH_T_UP, OR_UP};
+Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, SH_O_UP, OR_UP};
+Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, SH_I_UP, OR_UP};
+Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, SH_L_UP, OR_UP};
+Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, SH_J_UP, OR_UP};
+Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, SH_S_UP, OR_UP};
+Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, SH_Z_UP, OR_UP};
 
 int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
 int arena[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
@@ -107,7 +116,7 @@ int loop(int cmd, Uint32 t)
     
     if (cmd == GAME_ROTATE)
     {
-        rotateActiveShape();
+        rotateActiveShape2();
     }
     
     if (cmd == GAME_MOVELEFT)
@@ -340,6 +349,13 @@ void rotateActiveShape()
 }
 
 
+void rotateActiveShape2()
+{
+    printf("Before: %d\n", activeShape.direction);
+    activeShape.direction = (activeShape.direction + 1) % 4;
+    printf("After: %d\n", activeShape.direction);
+}
+
 void transposeShape()
 {
     int newCol = activeShape.row;
@@ -435,6 +451,7 @@ void copyTetromino(Tetromino *target, Tetromino *source)
         target->matrix = TETROMINO_VOID;
         target->code = CHR_T;
         target->orientation = 0;
+        target->direction = OR_UP;
     }
     
     target->col = source->col;
@@ -442,6 +459,7 @@ void copyTetromino(Tetromino *target, Tetromino *source)
     target->color = source->color;
     target->code = source->code;
     target->orientation = source->orientation;
+    target->direction = source->direction;
     
     for (int i = 0; i < 6; i++)
     {

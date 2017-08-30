@@ -86,6 +86,11 @@
 #define SH_Z_DW 50688 //1100 0110 0000 0000
 #define SH_Z_RT 19584 //0100 1100 1000 0000
 
+#define OR_UP 0
+#define OR_LF 1
+#define OR_DW 2
+#define OR_RT 3
+
 #define _BIT1  32768
 #define _BIT2  _BIT1  / 2
 #define _BIT3  _BIT2  / 2
@@ -111,6 +116,7 @@ typedef struct Tetrominos {
     int *matrix;
     int code;
     int orientation;
+    int direction;
 } Tetromino;
 
 int loop(int cmd, Uint32 t);
