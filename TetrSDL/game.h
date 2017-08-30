@@ -109,13 +109,9 @@
 #define _BIT16 _BIT15 / 2
 
 typedef struct Tetrominos {
-    int row;
-    int col;
     SDL_Color *color;
-    // This is a string representation of the matrix. Get the total matrix by using rows and cols.
-    int *matrix;
     int code;
-    int orientation;
+    int repr;
     int direction;
 } Tetromino;
 

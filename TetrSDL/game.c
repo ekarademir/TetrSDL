@@ -73,13 +73,13 @@ int ORS[7][4] = {
     {SH_T_UP, SH_T_LF, SH_T_DW, SH_T_RT}
 };
 
-Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, SH_T_UP, OR_UP};
-Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, SH_O_UP, OR_UP};
-Tetromino SHAPE_I = {4, 1, &COLOR_RED1, TETROMINO_I, CHR_I, SH_I_UP, OR_UP};
-Tetromino SHAPE_L = {3, 2, &COLOR_GREEN1, TETROMINO_L, CHR_L, SH_L_UP, OR_UP};
-Tetromino SHAPE_J = {3, 2, &COLOR_YELLOW1, TETROMINO_J, CHR_J, SH_J_UP, OR_UP};
-Tetromino SHAPE_S = {2, 3, &COLOR_LILAC1, TETROMINO_S, CHR_S, SH_S_UP, OR_UP};
-Tetromino SHAPE_Z = {2, 3, &COLOR_LILAC2, TETROMINO_Z, CHR_Z, SH_Z_UP, OR_UP};
+Tetromino SHAPE_T = {&COLOR_ORANGE1, CHR_T, SH_T_UP, OR_UP};
+Tetromino SHAPE_O = {&COLOR_BLUE1,   CHR_O, SH_O_UP, OR_UP};
+Tetromino SHAPE_I = {&COLOR_RED1,    CHR_I, SH_I_UP, OR_UP};
+Tetromino SHAPE_L = {&COLOR_GREEN1,  CHR_L, SH_L_UP, OR_UP};
+Tetromino SHAPE_J = {&COLOR_YELLOW1, CHR_J, SH_J_UP, OR_UP};
+Tetromino SHAPE_S = {&COLOR_LILAC1,  CHR_S, SH_S_UP, OR_UP};
+Tetromino SHAPE_Z = {&COLOR_LILAC2,  CHR_Z, SH_Z_UP, OR_UP};
 
 int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
 int arena[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
@@ -209,7 +209,7 @@ void blendToScene(Tetromino *t)
         currRow = i / collen;
         currCol = i % collen;
         
-        if ( (t->orientation & POS[i]) != 0 )
+        if ( (t->repr & POS[i]) != 0 )
         {
             scene[activeY + currRow][activeX + currCol] = t->code;
         }
@@ -254,7 +254,7 @@ void drawTetromino(Tetromino *t, int x, int y)
     {
         currRow = i / collen;
         currCol = i % collen;
-        if ( (t->orientation & POS[i]) != 0)
+        if ( (t->repr & POS[i]) != 0)
         {
             fillRect(
                      x + 1 + TETR_BLOCK_SIZE * currCol,
@@ -313,7 +313,7 @@ void newShape()
 void rotateActiveShape()
 {
     activeShape.direction = (activeShape.direction + 1) % 4;
-    activeShape.orientation = ORS[activeShape.code - 1][activeShape.direction];
+    activeShape.repr = ORS[activeShape.code - 1][activeShape.direction];
 }
 
 
@@ -329,7 +329,7 @@ void printTetromino(Tetromino *t)
     {
         tCol = i % collen;
         
-        printf("%d ",  ((t->orientation & POS[i]) != 0) );
+        printf("%d ",  ((t->repr & POS[i]) != 0) );
         
         if (tCol == collen -1 )
         {
