@@ -13,9 +13,6 @@ void updateHUD();
 void drawBezel();
 
 void drawTetromino(Tetromino *t, int x, int y);
-void drawTetromino2(Tetromino *t, int x, int y);
-void copyTetromino(Tetromino *source, Tetromino *target);
-void destroyTetromino(Tetromino *t);
 void nextTetromino();
 void printTetromino(Tetromino *t);
 
@@ -27,7 +24,6 @@ void moveActiveShape(int dx, int dy);
 void transposeShape();
 void flipVShape();
 void rotateActiveShape();
-void rotateActiveShape2();
 void newShape();
 
 
@@ -67,13 +63,15 @@ int TETROMINO_S[6] = {0, 1, 1, 1, 1, 0};
 int TETROMINO_Z[6] = {1, 1, 0, 0, 1, 1};
 int TETROMINO_VOID[6] = {0, 0, 0, 0, 0, 0};
 
-int OR_T[4] = {SH_T_UP, SH_T_LF, SH_T_DW, SH_T_RT};
-int OR_O[4] = {SH_O_UP, SH_O_LF, SH_O_DW, SH_O_RT};
-int OR_I[4] = {SH_I_UP, SH_I_LF, SH_I_DW, SH_I_RT};
-int OR_L[4] = {SH_L_UP, SH_L_LF, SH_L_DW, SH_L_RT};
-int OR_J[4] = {SH_J_UP, SH_J_LF, SH_J_DW, SH_J_RT};
-int OR_S[4] = {SH_S_UP, SH_S_LF, SH_S_DW, SH_S_RT};
-int OR_Z[4] = {SH_Z_UP, SH_Z_LF, SH_Z_DW, SH_Z_RT};
+int ORS[7][4] = {
+    {SH_I_UP, SH_I_LF, SH_I_DW, SH_I_RT},
+    {SH_S_UP, SH_S_LF, SH_S_DW, SH_S_RT},
+    {SH_Z_UP, SH_Z_LF, SH_Z_DW, SH_Z_RT},
+    {SH_J_UP, SH_J_LF, SH_J_DW, SH_J_RT},
+    {SH_L_UP, SH_L_LF, SH_L_DW, SH_L_RT},
+    {SH_O_UP, SH_O_LF, SH_O_DW, SH_O_RT},
+    {SH_T_UP, SH_T_LF, SH_T_DW, SH_T_RT}
+};
 
 Tetromino SHAPE_T = {2, 3, &COLOR_ORANGE1, TETROMINO_T, CHR_T, SH_T_UP, OR_UP};
 Tetromino SHAPE_O = {2, 2, &COLOR_BLUE1, TETROMINO_O, CHR_O, SH_O_UP, OR_UP};
@@ -116,7 +114,7 @@ int loop(int cmd, Uint32 t)
     
     if (cmd == GAME_ROTATE)
     {
-        rotateActiveShape2();
+        rotateActiveShape();
     }
     
     if (cmd == GAME_MOVELEFT)
@@ -195,9 +193,12 @@ void drawScene()
     } // end for i
 }
 
+
 void blendToScene(Tetromino *t)
 {
-    int len = t->col * t->row;
+    int len = 16;
+    
+    int collen = 4;
     
     int currCol, currRow;
     
@@ -205,16 +206,12 @@ void blendToScene(Tetromino *t)
     
     for (int i = 0; i < len; i++)
     {
-        currRow = i / t->col;
-        currCol = i % t->col;
+        currRow = i / collen;
+        currCol = i % collen;
         
-        if (t->matrix[i] == 1)
+        if ( (t->orientation & POS[i]) != 0 )
         {
             scene[activeY + currRow][activeX + currCol] = t->code;
-        }
-        else
-        {
-            scene[activeY + currRow][activeX + currCol] = 0;
         }
     }
 }
@@ -233,8 +230,7 @@ void arenaToScene()
 
 void drawNextShape()
 {
-//    drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
-    drawTetromino2(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
+    drawTetromino(&nextShape, TETR_BEZEL_X - TETR_BLOCK_SIZE * 4, TETR_BEZEL_Y + TETR_BLOCK_SIZE * 4);
 }
 
 
@@ -246,29 +242,6 @@ void moveActiveShape(int dx, int dy)
 
 
 void drawTetromino(Tetromino *t, int x, int y)
-{
-    int len = t->col * t->row;
-    
-    int currCol, currRow;
-    
-    for (int i = 0; i < len; i++)
-    {
-        currRow = i / t->col;
-        currCol = i % t->col;
-
-        if (t->matrix[i] == 1)
-        {
-            fillRect(
-                     x + 1 + TETR_BLOCK_SIZE * currCol,
-                     y + 1 + TETR_BLOCK_SIZE * currRow,
-                     TETR_BLOCK_SIZE - 2,
-                     TETR_BLOCK_SIZE - 2,
-                     t->color);
-        }
-    }
-}
-
-void drawTetromino2(Tetromino *t, int x, int y)
 {
     
     int len = 16;
@@ -296,38 +269,36 @@ void drawTetromino2(Tetromino *t, int x, int y)
 
 void nextTetromino()
 {
-//    int r = rand() % 7 + 1;
-    int r = 7;
-    
-    destroyTetromino(&nextShape);
+    int r = rand() % 7 + 1;
+//    int r = 6;
     
     switch (r) {
         case CHR_I:
-            copyTetromino(&nextShape, &SHAPE_I);
+            nextShape = SHAPE_I;
             break;
         
         case CHR_O:
-            copyTetromino(&nextShape, &SHAPE_O);
+            nextShape = SHAPE_O;
             break;
         
         case CHR_L:
-            copyTetromino(&nextShape, &SHAPE_L);
+            nextShape = SHAPE_L;
             break;
         
         case CHR_J:
-            copyTetromino(&nextShape, &SHAPE_J);
+            nextShape = SHAPE_J;
             break;
         
         case CHR_S:
-            copyTetromino(&nextShape, &SHAPE_S);
+            nextShape = SHAPE_S;
             break;
         
         case CHR_Z:
-            copyTetromino(&nextShape, &SHAPE_Z);
+            nextShape = SHAPE_Z;
             break;
             
         default: // CHR_T
-            copyTetromino(&nextShape, &SHAPE_T);
+            nextShape = SHAPE_T;
             break;
     }
 }
@@ -335,66 +306,32 @@ void nextTetromino()
 void newShape()
 {
     nextTetromino();
-    copyTetromino(&activeShape, &nextShape);
+    activeShape = nextShape;
 }
 
 
 void rotateActiveShape()
 {
-    printTetromino(&activeShape);
-    transposeShape();
-    printTetromino(&activeShape);
-    flipVShape();
-    printTetromino(&activeShape);
-}
-
-
-void rotateActiveShape2()
-{
-    printf("Before: %d\n", activeShape.direction);
     activeShape.direction = (activeShape.direction + 1) % 4;
-    printf("After: %d\n", activeShape.direction);
-}
-
-void transposeShape()
-{
-    int newCol = activeShape.row;
-    int newRow = activeShape.col;
-    
-    int len = newCol * newRow;
-    
-    int tRow, tCol, j, t;
-    
-    for (int i = 0; i < len; i++)
-    {
-        tCol = i / activeShape.col; // row
-        tRow = i % activeShape.col; // col
-        
-        j = newCol * tRow + tCol;
-        
-        t = activeShape.matrix[i];
-        activeShape.matrix[i] = activeShape.matrix[j];
-        activeShape.matrix[j] = t;
-    }
-    
-    activeShape.col = newCol;
-    activeShape.row = newRow;
+    activeShape.orientation = ORS[activeShape.code - 1][activeShape.direction];
 }
 
 
 void printTetromino(Tetromino *t)
 {
-    int len = t->row * t->col;
+    int len = 16;
+    
+    int collen = 4;
     
     int tCol;
     
     for (int i = 0; i < len; i++)
     {
-        tCol = i % t->col; // col
+        tCol = i % collen;
         
-        printf("%d ", t->matrix[i]);
+        printf("%d ",  ((t->orientation & POS[i]) != 0) );
         
-        if (tCol == t->col - 1 )
+        if (tCol == collen -1 )
         {
             printf("\n");
         }
@@ -405,86 +342,12 @@ void printTetromino(Tetromino *t)
 }
 
 
-void flipVShape()
-{
-    if (activeShape.col > 1)
-    {
-        int len = activeShape.row * activeShape.col;
-        
-        int tRow, tCol, j, t;
-        
-        for (int i = 0; i < len; i++)
-        {
-            tRow = i / activeShape.col;
-            tCol = i % activeShape.col;
-            
-            if (activeShape.col == 2)
-            {
-                if (tCol == 1){tCol = 0;}
-                if (tCol == 0){tCol = 1;}
-            }
-            else // == 3
-            {
-                if (tCol == 0){tCol = 2;}
-                if (tCol == 2){tCol = 0;}
-            }
-            
-            j = activeShape.col * tRow + tCol;
-            
-            t = activeShape.matrix[i];
-            activeShape.matrix[i] = activeShape.matrix[j];
-            activeShape.matrix[j] = t;
-            
-        }
-    }
-    
-}
-
-
-void copyTetromino(Tetromino *target, Tetromino *source)
-{
-    if (target->matrix == NULL)
-    {
-        target->col = 2;
-        target->row = 3;
-        target->color = &COLOR_VOID;
-        target->matrix = TETROMINO_VOID;
-        target->code = CHR_T;
-        target->orientation = 0;
-        target->direction = OR_UP;
-    }
-    
-    target->col = source->col;
-    target->row = source->row;
-    target->color = source->color;
-    target->code = source->code;
-    target->orientation = source->orientation;
-    target->direction = source->direction;
-    
-    for (int i = 0; i < 6; i++)
-    {
-        target->matrix[i] = source->matrix[i];
-    }
-}
-
-
-void destroyTetromino(Tetromino *t)
-{
-    if (t->matrix != NULL)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            t->matrix[i] = 0;
-        }
-    }
-}
-
-
 void updateHUD()
 {
     sprintf(hudText, "%3d                    LEVEL: %3d", score, level);
     fillTextShaded(hudText, 22, -1, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
 }
+
 
 void drawBezel()
 {
