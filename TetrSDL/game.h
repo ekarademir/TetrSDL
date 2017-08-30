@@ -49,12 +49,50 @@
 #define CHR_L 5
 #define CHR_O 6
 
+// All possible orientations of tetrominos. In 4x4 matrix forms, flattened.
+// Defined as short integer, 2 bytes.
+#define SH_T_UP 58368 //1110 0100 0000 0000
+#define SH_T_LF 35968 //1000 1100 1000 0000
+#define SH_T_DW 19968 //0100 1110 0000 0000
+#define SH_T_RT 19520 //0100 1100 0100 0000
+
+#define SH_O_UP 52224 //1100 1100 0000 0000
+#define SH_O_LF 52224 //1100 1100 0000 0000
+#define SH_O_DW 52224 //1100 1100 0000 0000
+#define SH_O_RT 52224 //1100 1100 0000 0000
+
+#define SH_I_UP 61440 //1111 0000 0000 0000
+#define SH_I_LF 34952 //1000 1000 1000 1000
+#define SH_I_DW 61440 //1111 0000 0000 0000
+#define SH_I_RT 34952 //1000 1000 1000 1000
+
+#define SH_L_UP 35008 //1000 1000 1100 0000
+#define SH_L_LF 11776 //0010 1110 0000 0000
+#define SH_L_DW 50240 //1100 0100 0100 0000
+#define SH_L_RT 59392 //1110 1000 0000 0000
+
+#define SH_J_UP 17600 //0100 0100 1100 0000
+#define SH_J_LF 57856 //1110 0010 0000 0000
+#define SH_J_DW 51328 //1100 1000 1000 0000
+#define SH_J_RT 36352 //1000 1110 0000 0000
+
+#define SH_S_UP 27648 //0110 1100 0000 0000
+#define SH_S_LF 35904 //1000 1100 0100 0000
+#define SH_S_DW 27648 //0110 1100 0000 0000
+#define SH_S_RT 35904 //1000 1100 0100 0000
+
+#define SH_Z_UP 50688 //1100 0110 0000 0000
+#define SH_Z_LF 19584 //0100 1100 1000 0000
+#define SH_Z_DW 50688 //1100 0110 0000 0000
+#define SH_Z_RT 19584 //0100 1100 1000 0000
+
 typedef struct Tetrominos {
     int row;
     int col;
     SDL_Color *color;
     // This is a string representation of the matrix. Get the total matrix by using rows and cols.
     int *matrix;
+    // short matrix;
     int code;
 } Tetromino;
 
