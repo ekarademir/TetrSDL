@@ -13,17 +13,20 @@ void updateHUD();
 void drawBezel();
 
 void drawTetromino(Tetromino *t, int x, int y);
-void nextTetromino();
+Tetromino nextTetromino();
 void printTetromino(Tetromino *t);
 
 void drawScene();
 void arenaToScene();
+void seal();
 void drawNextShape();
 void blendToScene(Tetromino *t);
+Tetromino rotateShape(Tetromino t);
+
+int canMove(int dx, int dy, Tetromino t);
 void moveActiveShape(int dx, int dy);
-void transposeShape();
-void flipVShape();
 void rotateActiveShape();
+
 void newShape();
 
 
@@ -72,8 +75,8 @@ Tetromino SHAPE_J = {&COLOR_YELLOW1, CHR_J, SH_J_UP, OR_UP};
 Tetromino SHAPE_S = {&COLOR_LILAC1,  CHR_S, SH_S_UP, OR_UP};
 Tetromino SHAPE_Z = {&COLOR_LILAC2,  CHR_Z, SH_Z_UP, OR_UP};
 
-int scene[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
-int arena[TETR_NUM_VERTICAL][TETR_NUM_HORIZONTAL];
+int scene[SCENE_HEIGHT][SCENE_WIDTH];
+int arena[SCENE_HEIGHT][SCENE_WIDTH];
 
 int setup()
 {
@@ -81,8 +84,12 @@ int setup()
     
     activeX = TETR_SPAWN_COL;
     
-    nextTetromino();
-    newShape();
+    seal();
+    
+    nextShape = nextTetromino();
+    activeShape = nextTetromino();
+    
+    arena[4][1] = 1;
     
     return 0;
 }
@@ -129,12 +136,31 @@ int loop(int cmd, Uint32 t)
 }
 
 
+void seal()
+{
+    for(int i = 0; i < SCENE_HEIGHT; i++)
+    {
+        scene[i][0] = 9;
+        arena[i][0] = 9;
+        
+        scene[i][SCENE_WIDTH - 1] = 9;
+        arena[i][SCENE_WIDTH - 1] = 9;
+    }
+    
+    for(int i = 0; i < SCENE_WIDTH; i++)
+    {
+        scene[SCENE_HEIGHT - 1][i] = 9;
+        arena[SCENE_HEIGHT - 1][i] = 9;
+    }
+}
+
+
 void drawScene()
 {
     SDL_Color *color;
-    for (int i = 0; i < TETR_NUM_VERTICAL; i++)
+    for (int i = 0; i < SCENE_HEIGHT - 1; i++)
     {
-        for (int j = 0; j < TETR_NUM_HORIZONTAL; j++)
+        for (int j = 1; j < SCENE_WIDTH - 1; j++)
         {
             
             switch (scene[i][j]) {
@@ -174,7 +200,7 @@ void drawScene()
             if (scene[i][j] > 0)
             {
                 fillRect(
-                         TETR_BEZEL_X + 1 + TETR_BLOCK_SIZE * j,
+                         TETR_BEZEL_X + 1 + TETR_BLOCK_SIZE * (j-1),
                          TETR_BEZEL_Y + 1 + TETR_BLOCK_SIZE * i,
                          TETR_BLOCK_SIZE - 2,
                          TETR_BLOCK_SIZE - 2,
@@ -208,11 +234,39 @@ void blendToScene(Tetromino *t)
 }
 
 
+int canMove(int dx, int dy, Tetromino t)
+{
+    int len = 16;
+    
+    int collen = 4;
+    
+    int currCol, currRow;
+    
+    arenaToScene();
+    
+    for (int i = 0; i < len; i++)
+    {
+        currRow = i / collen;
+        currCol = i % collen;
+        
+        if ( (t.repr & POS[i]) != 0 )
+        {
+            if (arena[activeY + currRow + dy][activeX + currCol + dx] > 0)
+            {
+                return 0;
+            }
+        }
+    }
+    
+    return 1;
+}
+
+
 void arenaToScene()
 {
-    for (int i = 0; i < TETR_NUM_VERTICAL; i++)
+    for (int i = 0; i < SCENE_HEIGHT; i++)
     {
-        for (int j = 0; j < TETR_NUM_HORIZONTAL; j++)
+        for (int j = 0; j < SCENE_WIDTH; j++)
         {
             scene[i][j] = arena[i][j];
         }
@@ -227,8 +281,11 @@ void drawNextShape()
 
 void moveActiveShape(int dx, int dy)
 {
-    activeX += dx;
-    activeY += dy;
+    if (canMove(dx, dy, activeShape))
+    {
+        activeX += dx;
+        activeY += dy;
+    }
 }
 
 
@@ -258,53 +315,66 @@ void drawTetromino(Tetromino *t, int x, int y)
 }
 
 
-void nextTetromino()
+Tetromino nextTetromino()
 {
+    Tetromino t;
     int r = rand() % 7 + 1;
 //    int r = 6;
     
     switch (r) {
         case CHR_I:
-            nextShape = SHAPE_I;
+            t = SHAPE_I;
             break;
         
         case CHR_O:
-            nextShape = SHAPE_O;
+            t = SHAPE_O;
             break;
         
         case CHR_L:
-            nextShape = SHAPE_L;
+            t = SHAPE_L;
             break;
         
         case CHR_J:
-            nextShape = SHAPE_J;
+            t = SHAPE_J;
             break;
         
         case CHR_S:
-            nextShape = SHAPE_S;
+            t = SHAPE_S;
             break;
         
         case CHR_Z:
-            nextShape = SHAPE_Z;
+            t = SHAPE_Z;
             break;
             
         default: // CHR_T
-            nextShape = SHAPE_T;
+            t = SHAPE_T;
             break;
     }
+    
+    return t;
 }
 
 void newShape()
 {
-    nextTetromino();
     activeShape = nextShape;
+    nextShape = nextTetromino();
 }
-
 
 void rotateActiveShape()
 {
-    activeShape.direction = (activeShape.direction + 1) % 4;
-    activeShape.repr = ORS[activeShape.code - 1][activeShape.direction];
+    Tetromino rotated = rotateShape(activeShape);
+    if ( canMove(0, 0, rotated) )
+    {
+        activeShape = rotated;
+    }
+}
+
+Tetromino rotateShape(Tetromino t)
+{
+    t.direction = (t.direction + 1) % 4;
+    t.repr = ORS[t.code - 1][t.direction];
+    
+    return t;
 }
 
 
