@@ -21,13 +21,16 @@ void arenaToScene();
 void seal();
 void drawNextShape();
 void blendToScene(Tetromino *t);
+void blendToArena(Tetromino *t);
 Tetromino rotateShape(Tetromino t);
 
 int canMove(int dx, int dy, Tetromino t);
 void moveActiveShape(int dx, int dy);
 void rotateActiveShape();
+void freeFall();
 
 void newShape();
+void spawnNew();
 
 
 Uint32 last = 0;  // Last save of the time passed.
@@ -83,13 +86,12 @@ int setup()
     srand((unsigned) time(NULL));
     
     activeX = TETR_SPAWN_COL;
+    activeY = TETR_SPAWN_ROW;
     
     seal();
     
     nextShape = nextTetromino();
     activeShape = nextTetromino();
-    
-    arena[4][1] = 1;
     
     return 0;
 }
@@ -102,7 +104,11 @@ int setup()
  */
 int loop(int cmd, Uint32 t)
 {
-    if ((t - last) >= speed){last = t;}
+    if ((t - last) >= speed)
+    {
+        last = t;
+        freeFall();
+    }
     
     updateHUD();
     drawBezel();
@@ -151,6 +157,39 @@ void seal()
     {
         scene[SCENE_HEIGHT - 1][i] = 9;
         arena[SCENE_HEIGHT - 1][i] = 9;
+    }
+}
+
+
+void freeFall()
+{
+    // Test all possible moves if active shape drops one block.
+    
+    if ( canMove(activeX, activeY + 1, activeShape) )
+    {
+        activeY++;
+    }
+    else
+    {
+        blendToArena(&activeShape);
+        spawnNew();
+    }
+}
+
+void spawnNew()
+{
+    if (canMove(TETR_SPAWN_COL, 0, nextShape) )
+    {
+        activeShape = nextShape;
+        nextShape = nextTetromino();
+        activeY = TETR_SPAWN_ROW;
+        activeX = TETR_SPAWN_COL;
+    }
+    else
+    {
+        // gameOver();
+        blendToArena(&nextShape);
+        printf("GAME OVER\n");
     }
 }
 
@@ -234,6 +273,27 @@ void blendToScene(Tetromino *t)
 }
 
 
+void blendToArena(Tetromino *t)
+{
+    int len = 16;
+    
+    int collen = 4;
+    
+    int currCol, currRow;
+    
+    for (int i = 0; i < len; i++)
+    {
+        currRow = i / collen;
+        currCol = i % collen;
+        
+        if ( (t->repr & POS[i]) != 0 )
+        {
+            arena[activeY + currRow][activeX + currCol] = t->code;
+        }
+    }
+}
+
+
 int canMove(int dx, int dy, Tetromino t)
 {
     int len = 16;
@@ -251,7 +311,7 @@ int canMove(int dx, int dy, Tetromino t)
         
         if ( (t.repr & POS[i]) != 0 )
         {
-            if (arena[activeY + currRow + dy][activeX + currCol + dx] > 0)
+            if (arena[currRow + dy][currCol + dx] > 0)
             {
                 return 0;
             }
@@ -281,7 +341,7 @@ void drawNextShape()
 
 void moveActiveShape(int dx, int dy)
 {
-    if (canMove(dx, dy, activeShape))
+    if (canMove(activeX + dx, activeY + dy, activeShape))
     {
         activeX += dx;
         activeY += dy;
@@ -363,7 +423,7 @@ void newShape()
 void rotateActiveShape()
 {
     Tetromino rotated = rotateShape(activeShape);
-    if ( canMove(0, 0, rotated) )
+    if ( canMove(activeX, activeY, rotated) )
     {
         activeShape = rotated;
     }
