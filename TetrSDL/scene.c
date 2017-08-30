@@ -29,9 +29,9 @@ void fillText (char *msg, int x, int y, int w, int h, SDL_Color *color)
     SDL_Surface *text_surface = TTF_RenderText_Blended(tetrFont, msg, *color);
     SDL_Texture *text = SDL_CreateTextureFromSurface(tetrRend, text_surface);
     SDL_Rect rect = {x, y, w, h};
+    SDL_GetClipRect(text_surface, &rect);
     rect.x = x;
     rect.y = y;
-    SDL_GetClipRect(text_surface, &rect);
     SDL_FreeSurface(text_surface);
     SDL_RenderCopy(tetrRend, text, NULL, &rect);
     SDL_DestroyTexture(text);

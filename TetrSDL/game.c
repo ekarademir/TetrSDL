@@ -9,6 +9,9 @@
 #include "game.h"
 
 char hudText[40];
+
+
+void gameOver();
 void updateHUD();
 void drawBezel();
 
@@ -37,7 +40,7 @@ Uint32 last = 0;  // Last save of the time passed.
 int speed = 1000; // Speed of block movement in ms.
 int score = 999;
 int level = 999;
-int state = GAME_STATE_PAUSE;
+int state = GAME_STATE_PLAY;
 int feedback = GAME_NOOP;
 Tetromino activeShape;
 Tetromino nextShape;
@@ -104,36 +107,47 @@ int setup()
  */
 int loop(int cmd, Uint32 t)
 {
-    if ((t - last) >= speed)
+    if(state == GAME_STATE_PLAY)
     {
-        last = t;
-        freeFall();
+        updateHUD();
+        drawBezel();
+        drawNextShape();
+        blendToScene(&activeShape);
+        drawScene();
+        
+        if ((t - last) >= speed)
+        {
+            last = t;
+            freeFall();
+        }
+        
+        if (cmd == GAME_ROTATE)
+        {
+            rotateActiveShape();
+        }
+        
+        if (cmd == GAME_MOVELEFT)
+        {
+            moveActiveShape(-1, 0);
+        }
+        
+        if (cmd == GAME_MOVERIGHT)
+        {
+            moveActiveShape(1, 0);
+        }
+        
+        if (cmd == GAME_MOVEDOWN)
+        {
+            moveActiveShape(0, 1);
+        }
     }
-    
-    updateHUD();
-    drawBezel();
-    drawNextShape();
-    blendToScene(&activeShape);
-    drawScene();
-    
-    if (cmd == GAME_ROTATE)
+    else if(state == GAME_STATE_OVER)
     {
-        rotateActiveShape();
-    }
-    
-    if (cmd == GAME_MOVELEFT)
-    {
-        moveActiveShape(-1, 0);
-    }
-    
-    if (cmd == GAME_MOVERIGHT)
-    {
-        moveActiveShape(1, 0);
-    }
-    
-    if (cmd == GAME_MOVEDOWN)
-    {
-        moveActiveShape(0, 1);
+        updateHUD();
+        drawBezel();
+        drawNextShape();
+        drawScene();
+        fillText("GAME OVER", TETR_BEZEL_PADDING+150, 300, 0, 0, &COLOR_LILAC2);
     }
     
     if (cmd == GAME_QUIT){feedback = GAME_QUIT;}
@@ -187,10 +201,14 @@ void spawnNew()
     }
     else
     {
-        // gameOver();
-        blendToArena(&nextShape);
-        printf("GAME OVER\n");
+        gameOver();
     }
+}
+
+void gameOver()
+{
+    state = GAME_STATE_OVER;
+    blendToArena(&nextShape);
 }
 
 

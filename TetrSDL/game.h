@@ -44,6 +44,7 @@
 
 #define GAME_STATE_PLAY 1
 #define GAME_STATE_PAUSE 2
+#define GAME_STATE_OVER 3
 
 #define CHR_T 7
 #define CHR_I 1
