@@ -13,6 +13,10 @@
 #include "utils.h"
 #include "scene.h"
 
+#define LINEHEIGHT 28
+#define MID 300
+#define MIDV TETR_BEZEL_PADDING+150
+
 #define TETR_BLOCK_SIZE 20
 #define TETR_NUM_HORIZONTAL 20
 #define TETR_NUM_VERTICAL 35

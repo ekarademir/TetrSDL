@@ -74,6 +74,11 @@ int main(int argc, const char *argv[])
                     logger(LOG_DBG, "Key Press N - New game");
                     cmd = GAME_NEWGAME;
                 }
+                else if (sc == SDL_SCANCODE_P || sc == SDL_SCANCODE_ESCAPE)
+                {
+                    logger(LOG_DBG, "Key Press P - Pause");
+                    cmd = GAME_PAUSE;
+                }
             }
         }
         

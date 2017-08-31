@@ -8,12 +8,14 @@
 
 #include "game.h"
 
-char hudText[40];
+char scoreText[20];
+char levelText[20];
 
 
 void gameOver();
 void updateHUD();
 void drawBezel();
+void newGame();
 
 void drawTetromino(Tetromino *t, int x, int y);
 Tetromino nextTetromino();
@@ -93,7 +95,7 @@ int setup()
 {
     srand((unsigned) time(NULL));
     
-    state = GAME_STATE_PLAY;
+    state = GAME_STATE_PAUSE;
     
     activeX = TETR_SPAWN_COL;
     activeY = TETR_SPAWN_ROW;
@@ -146,13 +148,18 @@ int loop(int cmd, Uint32 t)
         if (cmd == GAME_MOVERIGHT)
         {
             moveActiveShape(1, 0);
-            increaseScore(1);
+//            increaseScore(1);
         }
         
         if (cmd == GAME_MOVEDOWN)
         {
 //            state = GAME_STATE_OVER;
             moveActiveShape(0, 1);
+        }
+        
+        if (cmd == GAME_PAUSE)
+        {
+            state = GAME_STATE_PAUSE;
         }
     }
     else if(state == GAME_STATE_OVER)
@@ -161,17 +168,46 @@ int loop(int cmd, Uint32 t)
         drawBezel();
         drawNextShape();
         drawScene();
-        fillText("GAME OVER", TETR_BEZEL_PADDING+150, 300, 0, 0, &COLOR_WHITE);
+        fillText("GAME OVER", TETR_BEZEL_PADDING+150, MID, 0, 0, &COLOR_WHITE);
         if (cmd == GAME_NEWGAME)
         {
-            logger(LOG_DBG, "Starting new game %s");
-            setup();
+            newGame();
+        }
+    }
+    else if(state == GAME_STATE_PAUSE)
+    {
+        updateHUD();
+        drawBezel();
+//        drawNextShape();
+//        drawScene();
+        fillText(" A",         MIDV, MID+LINEHEIGHT*0, 0, 0, &COLOR_WHITE);
+        fillText("Very Long",  MIDV, MID+LINEHEIGHT*1, 0, 0, &COLOR_WHITE);
+        fillText("Tetris",     MIDV, MID+LINEHEIGHT*2, 0, 0, &COLOR_WHITE);
+        fillText("q  quit",    MIDV, MID+LINEHEIGHT*6, 0, 0, &COLOR_WHITE);
+        fillText("n new game", MIDV, MID+LINEHEIGHT*4, 0, 0, &COLOR_WHITE);
+        fillText("p pause",    MIDV, MID+LINEHEIGHT*5, 0, 0, &COLOR_WHITE);
+        if (cmd == GAME_NEWGAME)
+        {
+            newGame();
+        }
+        
+        if (cmd == GAME_PAUSE)
+        {
+            state = GAME_STATE_PLAY;
         }
     }
     
     if (cmd == GAME_QUIT){feedback = GAME_QUIT;}
     
     return feedback;
+}
+
+
+void newGame()
+{
+    logger(LOG_DBG, "Starting new game %s");
+    setup();
+    state = GAME_STATE_PLAY;
 }
 
 void removeFullLines()
@@ -606,8 +642,10 @@ void printTetromino(Tetromino *t)
 
 void updateHUD()
 {
-    sprintf(hudText, "%3d                    LEVEL: %3d", score, level);
-    fillTextShaded(hudText, 22, -1, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
+    sprintf(scoreText, "%03d", score);
+    fillTextShaded(scoreText, 22, -1, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
+    sprintf(levelText, "LEVEL: %03d", level);
+    fillTextShaded(levelText, TETR_SCREEN_WIDTH - 200, -1, TETR_SCREEN_WIDTH-10, TETR_HUD_HEIGHT, &COLOR_WHITE, &COLOR_BLACK);
 }
 
 
