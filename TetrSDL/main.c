@@ -3,7 +3,7 @@
 //  TetrSDL
 //
 //  Created by Ertugrul Karademir on 23/08/2017.
-//  Copyright © 2017 Ertugrul Karademir. See LICENCE for licence info.
+//  Copyright © 2017 See LICENCE for licence info.
 //
 
 #include "tetr.h"

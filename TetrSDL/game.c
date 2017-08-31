@@ -3,7 +3,7 @@
 //  TetrSDL
 //
 //  Created by Ertugrul Karademir on 26/08/2017.
-//  Copyright © 2017 RotatingWave. All rights reserved.
+//  Copyright © 2017 See LICENCE for licence info.
 //
 
 #include "game.h"
