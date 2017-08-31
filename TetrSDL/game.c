@@ -31,6 +31,9 @@ int canMove(int dx, int dy, Tetromino t);
 void moveActiveShape(int dx, int dy);
 void rotateActiveShape();
 void freeFall();
+void removeFullLines();
+void shiftEmptyLines();
+void increaseScore(int amount);
 
 void newShape();
 void spawnNew();
@@ -38,8 +41,9 @@ void spawnNew();
 
 Uint32 last = 0;  // Last save of the time passed.
 int speed = 1000; // Speed of block movement in ms.
-int score = 999;
-int level = 999;
+int startSpeed = 1000;
+int score = 0;
+int level = 1;
 int state = GAME_STATE_PLAY;
 int feedback = GAME_NOOP;
 Tetromino activeShape;
@@ -83,6 +87,7 @@ Tetromino SHAPE_Z = {&COLOR_LILAC2,  CHR_Z, SH_Z_UP, OR_UP};
 
 int scene[SCENE_HEIGHT][SCENE_WIDTH];
 int arena[SCENE_HEIGHT][SCENE_WIDTH];
+int emptyLine[SCENE_WIDTH];
 
 int setup()
 {
@@ -92,6 +97,11 @@ int setup()
     
     activeX = TETR_SPAWN_COL;
     activeY = TETR_SPAWN_ROW;
+    
+//    for (int l = 1; l < SCENE_WIDTH-3; l++)
+//    {
+//        arena[31][l] = 2;
+//    }
     
     seal();
     
@@ -136,6 +146,7 @@ int loop(int cmd, Uint32 t)
         if (cmd == GAME_MOVERIGHT)
         {
             moveActiveShape(1, 0);
+            increaseScore(1);
         }
         
         if (cmd == GAME_MOVEDOWN)
@@ -163,6 +174,104 @@ int loop(int cmd, Uint32 t)
     return feedback;
 }
 
+void removeFullLines()
+{
+    // H and V should be interchanged but fuck Xcode and its lack of versatile cursors
+    int vstart = 1, vend = TETR_NUM_HORIZONTAL+1;
+    int hstart = 0, hend = TETR_NUM_VERTICAL;
+    
+    int fullflag;
+    
+    for (int i = hstart; i < hend; i++)
+    {
+        fullflag = 0;
+        
+        for (int j = vstart; j < vend; j++)
+        {
+            if (arena[i][j] > 0)
+            {
+                fullflag++;
+            }
+            
+            if (fullflag == TETR_NUM_HORIZONTAL)
+            {
+                for (int l = vstart; l < vend; l++)
+                {
+                    arena[i][l] = 0;
+                }
+                
+                increaseScore(1);
+            }
+        }
+    }
+}
+
+void increaseScore(int amount)
+{
+    score += amount;
+    level = (score - (score % 10)) / 10 + 1;
+    speed = startSpeed - 50 * level;
+}
+
+
+void shiftEmptyLines()
+{
+    int hstart = 1, hend = TETR_NUM_HORIZONTAL+1;
+    int vstart = 0, vend = TETR_NUM_VERTICAL;
+    
+    int emptystart = vend - 1, emptycount = 0, emptyflag = 0;
+    
+    for (int i = vend-1; i >= vstart; i--)
+    {
+        if (emptycount == 0)
+        {
+            emptystart = i;
+        }
+        
+        emptyflag = 0;
+        for (int j = hstart; j < hend; j++)
+        {
+            if (arena[i][j] == 0)
+            {
+                emptyflag++;
+            }
+        }
+        
+        if (emptyflag == TETR_NUM_HORIZONTAL)
+        {
+            emptycount++;
+        }
+        else
+        {
+            
+            if (emptycount != 0)
+            {
+                // SHIFT everything above
+                for (char k = emptystart; k >= vstart; k--)
+                {
+                    for (char l = hstart; l < hend; l++)
+                    {
+                        arena[k][l] = arena[k - emptycount][l];
+                    }
+                }
+                
+                // Fill top rows with zero
+                for (char k = 0; k < emptycount; k++)
+                {
+                    for (char l = hstart; l < hend; l++)
+                    {
+                        arena[k][l] = 0;
+                    }
+                }
+                
+                i = vend-1;
+                emptycount = 0;
+            }
+            
+        }
+    }
+}
+
 
 void seal()
 {
@@ -180,6 +289,9 @@ void seal()
         scene[SCENE_HEIGHT - 1][i] = 9;
         arena[SCENE_HEIGHT - 1][i] = 9;
     }
+    
+    emptyLine[0] = 9;
+    emptyLine[SCENE_WIDTH-1] = 9;
 }
 
 
@@ -317,6 +429,9 @@ void blendToArena(Tetromino *t)
             arena[activeY + currRow][activeX + currCol] = t->code;
         }
     }
+    
+    removeFullLines();
+    shiftEmptyLines();
 }
 
 

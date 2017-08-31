@@ -54,7 +54,7 @@ void logger(int lvl, char *msg)
     }
     else if (lvl == LOG_DBG)
     {
-        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, msg, SDL_GetError());
+//        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, msg, SDL_GetError());
     }
     else if (lvl == LOG_WRN)
     {
