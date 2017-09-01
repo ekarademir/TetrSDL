@@ -35,7 +35,7 @@
 		5B04EC2B1F51D5D100FA46E5 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		5B04EC301F51DE6C00FA46E5 /* scene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scene.c; sourceTree = "<group>"; };
 		5B04EC311F51DE6C00FA46E5 /* scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scene.h; sourceTree = "<group>"; };
-		5B2F183E1F59311B00853F74 /* ethnocentric.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ethnocentric.ttf; path = TetrSDL/assets/ethnocentric.ttf; sourceTree = "<group>"; };
+		5B2F183E1F59311B00853F74 /* ethnocentric.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ethnocentric.ttf; path = assets/ethnocentric.ttf; sourceTree = "<group>"; };
 		5BA17F731F521AE500467ECB /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
 		5BA17F741F521AE500467ECB /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 		5BA5CE311F533CB0002E5939 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
@@ -61,10 +61,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5BD633B21F4DEA0B008A0CDB = {
+		5B2F18421F59335F00853F74 /* assets */ = {
 			isa = PBXGroup;
 			children = (
 				5B2F183E1F59311B00853F74 /* ethnocentric.ttf */,
+			);
+			name = assets;
+			sourceTree = "<group>";
+		};
+		5BD633B21F4DEA0B008A0CDB = {
+			isa = PBXGroup;
+			children = (
 				5BD633BD1F4DEA0B008A0CDB /* TetrSDL */,
 				5BD633BC1F4DEA0B008A0CDB /* Products */,
 				5BD633C51F4DEA99008A0CDB /* Frameworks */,
@@ -89,8 +96,9 @@
 				5B04EC301F51DE6C00FA46E5 /* scene.c */,
 				5B04EC311F51DE6C00FA46E5 /* scene.h */,
 				5BA17F731F521AE500467ECB /* game.c */,
-				5BA17F741F521AE500467ECB /* game.h */,
 				5BA5CE331F533F17002E5939 /* imports.h */,
+				5BA17F741F521AE500467ECB /* game.h */,
+				5B2F18421F59335F00853F74 /* assets */,
 			);
 			path = TetrSDL;
 			sourceTree = "<group>";
