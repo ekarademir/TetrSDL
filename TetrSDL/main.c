@@ -146,7 +146,7 @@ int loadFont()
     // Made by Raymond Larabie
     // http://typodermicfonts.com/
     
-    tetrFont = TTF_OpenFont("/assets/ethocentric.ttf", 25);
+    tetrFont = TTF_OpenFont("/assets/ethnocentric.ttf", 25);
     if (!tetrFont)
     {
         logger(LOG_ERR, "Unable to load the font %s");
